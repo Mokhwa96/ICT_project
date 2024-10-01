@@ -17,24 +17,30 @@ public class Question {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "title", length = 255, nullable = false)
+    @Column(name = "title", length = 255)
     private String title;
 
-    @Column(name = "content", columnDefinition = "TEXT", nullable = false)
+    @Column(name = "content", columnDefinition = "TEXT")
     private String content;
 
-    @Column(name = "status", length = 50, nullable = false)
+    @Column(name = "status", length = 50)
     private String status;
 
-    @Column(name = "visibility", length = 50, nullable = false)
+    @Column(name = "visibility", length = 50)
     private String visibility;
 
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @Column(name = "user_id", nullable = false)
+    @Column(name = "user_id")
     private Long userId;
+
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = LocalDateTime.now(); // 엔티티가 처음 저장될 때 현재 시간을 설정
+        this.updatedAt = LocalDateTime.now();
+    }
 }

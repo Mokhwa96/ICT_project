@@ -1,8 +1,10 @@
 import gradio as gr
 import AnswerRequest
+import QuestionRequest
 
 def response(message, history):
     # 답변을 조회하는 함수 호출
+    QuestionRequest.create_answer(message)
     request = AnswerRequest.get_answers(1)
     
     # 만약 'error' 키가 있으면 에러 메시지 반환
@@ -14,8 +16,8 @@ def response(message, history):
         first_item = request[0]
         if "content" in first_item:
             return first_item["content"]
-    
-    return "Error: 'content' not found in response"
+
+    return "답변을 받을 수 없습니다."
     
 
 if __name__ == "__main__":

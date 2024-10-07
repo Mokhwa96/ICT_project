@@ -1,15 +1,12 @@
 package com.overmind.overmind_chatbot.entity;
 
-import com.overmind.overmind_chatbot.entity.User;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import main.java.com.overmind.overmind_chatbot.entity.enums.QuestionStatus;
+
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -19,10 +16,6 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
-@ToString
-@EqualsAndHashCode
 @Builder
 public class Question {
 
@@ -30,20 +23,22 @@ public class Question {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "title", length = 255)
+    @Column(name = "title", length = 255, nullable = false)
     private String title;
 
-    @Column(name = "content", columnDefinition = "TEXT")
+    @Column(name = "content", columnDefinition = "TEXT", nullable = false)
     private String content;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status", length = 50)
-    private String status;
+    private QuestionStatus status;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "visibility", length = 50)
-    private String visibility;
+    private Visibility visibility;
 
     @CreatedDate
-    @Column(name = "created_at")
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
     @LastModifiedDate
@@ -54,11 +49,6 @@ public class Question {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @PrePersist
-    @PreUpdate
-    @PreRemove
-    public void prePersist() {
-        this.createdAt = LocalDateTime.now(); // 엔티티가 처음 저장될 때 현재 시간을 설정
-        this.updatedAt = LocalDateTime.now();
-    }
+    // @PrePersist와 @PreUpdate 메서드는 삭제.
+    //@CreatedDate와 @LastModifiedDate를 사용하므로 필요 없음
 }

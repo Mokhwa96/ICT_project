@@ -5,8 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 
 @SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
+@EnableJpaAuditing
 public class OvermindChatbotApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(OvermindChatbotApplication.class, args);
 	}

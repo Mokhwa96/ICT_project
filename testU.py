@@ -1,7 +1,7 @@
 import gradio as gr
-import answerRequest
-import questionRequest
-import userRequest
+import AnswerRequest as answerRequest
+import QuestionRequest as questionRequest
+import UserRequest as userRequest
 import requests
 
 SESSION_CHECK_API_URL = "http://localhost:8080/user/checkSession"

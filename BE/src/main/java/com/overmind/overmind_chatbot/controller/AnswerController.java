@@ -14,9 +14,11 @@ import java.util.Optional;
 public class AnswerController {
     @Autowired
     private AnswerService answerService;
+
     //실시간 응답 처리
+    // 답변 목록 조회 (특정 질문 ID로)
     @GetMapping("/{questionId}")
-    public ResponseEntity AnswerGet(@PathVariable Long questionId){
+    public ResponseEntity<List<Answer>> getAnswersByQuestionId(@PathVariable Long questionId) {
         List<Answer> answers = answerService.getAnswersByQuestionId(questionId);
         if (answers.isEmpty()) {
             return ResponseEntity.noContent().build();

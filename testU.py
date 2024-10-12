@@ -8,8 +8,16 @@ SESSION_CHECK_API_URL = "http://localhost:8080/user/checkSession"
 
 def response(message, history):
     # 답변을 조회하는 함수 호출
-    questionRequest.create_answer(message)
-    request = answerRequest.get_answers(1)
+    #questionRequest.create_question(message)
+    #request = answerRequest.get_answers(1)
+    # 질문을 생성하는 함수 호출
+    question_id = questionRequest.create_question(message)
+    
+    # 질문 생성이 성공했을 때만 답변을 조회
+    if isinstance(question_id, dict) and "error" not in question_id:
+        request = answerRequest.get_answers(question_id)
+    else:
+        return "질문 생성에 실패했습니다."
     
     # 만약 'error' 키가 있으면 에러 메시지 반환
     if isinstance(request, dict) and "error" in request:

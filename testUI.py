@@ -1,6 +1,6 @@
 import gradio as gr
-import answerRequest
-import questionRequest
+import answerReq
+import questionReq
 import userRequest
 import historyPage as hp
 import requests
@@ -9,8 +9,8 @@ SESSION_CHECK_API_URL = "http://localhost:8080/user/checkSession"
 
 def response(message, history):
     # 답변을 조회하는 함수 호출
-    questionRequest.create_answer(message)
-    request = answerRequest.get_answers(1)
+    questionReq.create_answer(message)
+    request = answerReq.get_answers(1)
     
     # 만약 'error' 키가 있으면 에러 메시지 반환
     if isinstance(request, dict) and "error" in request:

@@ -1,7 +1,7 @@
 # 답변 관련 코드
 import requests
 
-API_URL = "http://localhost:8080/question"
+API_URL = "http://localhost:8080/questions"
 
 # POST 요청 (답변 생성)
 def create_answer(content):

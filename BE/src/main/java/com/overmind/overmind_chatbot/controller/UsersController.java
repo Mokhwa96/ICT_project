@@ -15,7 +15,7 @@ import java.util.Map;
 public class UsersController {
 
     @Autowired
-    privateUsersService usersService;
+    UsersService usersService;
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody Map<String, String> loginData, HttpSession session) {

@@ -1,7 +1,7 @@
 package com.overmind.overmind_chatbot.dto;
 
-import com.overmind.overmind_chatbot.entity.Role;
 import lombok.*;
+
 import java.time.LocalDateTime;
 
 @Data
@@ -12,7 +12,7 @@ public class UserDto {
     private Long id;
     private String email;
     private String name;
-    private Role role;
+    private String role;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

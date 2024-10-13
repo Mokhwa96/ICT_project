@@ -12,7 +12,7 @@ import static com.fasterxml.jackson.databind.type.LogicalType.Map;
 @Service
 public class UsersService {
     @Autowired
-    private UsersRepository usersRepository;
+    UsersRepository usersRepository;
 
     public ResponseEntity LoginCheck( Map<String, String> loginData) {
         String username = loginData.get("user_id");
@@ -26,4 +26,6 @@ public class UsersService {
             return ResponseEntity.status(401).body("로그인 실패! 사용자 이름 또는 비밀번호가 틀렸습니다.");
         }
     }
+
+
 }

@@ -9,16 +9,21 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.http.HttpStatus;
+
 import javax.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/questions")
 public class QuestionController {
+
+    private final QuestionService questionService;
+    private final ModelMapper modelMapper;
+
     @Autowired
-    private QuestionService questionService;
-    @Autowired
-    private ModelMapper modelMapper;
+    public QuestionController(QuestionService questionService, ModelMapper modelMapper) {
+        this.questionService = questionService;
+        this.modelMapper = modelMapper;
+    }
 
     // 질문 등록
     @PostMapping
@@ -26,7 +31,7 @@ public class QuestionController {
         Question question = modelMapper.map(questionDto, Question.class);
         Question savedQuestion = questionService.createQuestion(question);
         QuestionDto savedQuestionDto = modelMapper.map(savedQuestion, QuestionDto.class);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedQuestionDto);
+        return ResponseEntity.ok(savedQuestionDto);
     }
 
     // 질문 목록 조회
@@ -65,8 +70,12 @@ public class QuestionController {
     // 질문 삭제
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteQuestion(@PathVariable Long id) {
-        questionService.deleteQuestion(id);
-        return ResponseEntity.noContent().build();
+        boolean deleted = questionService.deleteQuestion(id);
+        if (deleted) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     // 전체 질문 삭제

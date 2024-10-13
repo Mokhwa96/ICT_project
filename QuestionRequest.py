@@ -1,3 +1,4 @@
+# 답변 관련 코드
 import requests
 
 API_URL = "http://localhost:8080/question"

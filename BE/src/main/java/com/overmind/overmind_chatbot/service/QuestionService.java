@@ -1,7 +1,6 @@
 package com.overmind.overmind_chatbot.service;
 
 import com.overmind.overmind_chatbot.entity.Question;
-import com.overmind.overmind_chatbot.exception.QuestionNotFoundException;
 import com.overmind.overmind_chatbot.repository.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

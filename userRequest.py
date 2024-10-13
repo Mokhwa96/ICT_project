@@ -1,3 +1,4 @@
+#
 import requests
 
 # Spring 서버의 로그인 API URL
@@ -13,7 +14,6 @@ def login(user_id, password):
         "user_id": user_id,
         "password": password
     }
-
     # Spring REST API에 POST 요청 (세션 객체 사용)
     response = session.post(LOGIN_API_URL, json=data)
 
@@ -33,7 +33,7 @@ def check_session():
     response = requests.get(SESSION_CHECK_API_URL)
     return response.text
 
-# 로그인 상태 확인 함수
+# 로그인 상태 확인 함수 : 로그인을 해야 챗봇이랑, 기록보기를 사용할 수 있음.
 def check_login_status():
     # 세션 객체를 사용해 로그인 상태 확인
     response = session.get(SESSION_CHECK_API_URL)

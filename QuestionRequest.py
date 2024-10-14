@@ -13,7 +13,6 @@ def create_question(content):
     else:
         return f"Error: {response.status_code}"
 
-
 # GET 요청 (질문 조회)
 def get_question(question_id):
     url = f"{API_URL}/{question_id}"

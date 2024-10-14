@@ -2,6 +2,7 @@ import gradio as gr
 import userRequest
 import questionRequest
 import answerRequest
+import historyPage
 import requests
 
 SESSION_CHECK_API_URL = "http://localhost:8080/user/checkSession"
@@ -98,6 +99,9 @@ with gr.Blocks(theme="soft") as demo:
     login_page_box = gr.Column(visible=True)
     chatbot_page_box = gr.Column(visible=False)
     history_page_box = gr.Column(visible=False)
+    
+    # 팝업 메시지용 Markdown 출력 부분
+    popup_message = gr.Markdown(value="")
 
     with login_page_box:
         login_page()

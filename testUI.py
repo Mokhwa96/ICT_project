@@ -1,16 +1,25 @@
 import gradio as gr
-import answerReq
-import questionReq
 import userRequest
-import historyPage as hp
+import questionReq
+import answerReq
+import historyPage
 import requests
 
 SESSION_CHECK_API_URL = "http://localhost:8080/user/checkSession"
 
 def response(message, history):
     # 답변을 조회하는 함수 호출
-    questionReq.create_answer(message)
-    request = answerReq.get_answers(1)
+    #questionRequest.create_question(message)
+    #request = answerRequest.get_answers(1)
+    
+    # 질문을 생성하는 함수 호출
+    question_id = questionReq.create_question(message)
+    
+    # 질문 생성이 성공했을 때만 답변을 조회
+    if isinstance(question_id, dict) and "error" not in question_id:
+        request = answerReq.get_answers(question_id)
+    else:
+        return "질문 생성에 실패했습니다."
     
     # 만약 'error' 키가 있으면 에러 메시지 반환
     if isinstance(request, dict) and "error" in request:
@@ -36,6 +45,17 @@ def login_page():
         # 버튼 클릭 시 로그인 검증 실행
         login_button.click(userRequest.login, inputs=[user_id_input, password_input], outputs=result_output)
 
+def session_check_page():
+    with gr.Column():
+        session_button = gr.Button("세션 상태 확인")
+        session_output = gr.Textbox(label="Session Result", interactive=False)
+        session_button.click(userRequest.check_session, outputs=session_output)
+
+def logout_page():
+    with gr.Column():
+        logout_button = gr.Button("Logout")
+        logout_output = gr.Textbox(label="Logout Result", interactive=False)
+        logout_button.click(userRequest.logout, outputs=logout_output)
 
 # 챗봇 페이지 구성
 def chatbot_page():
@@ -51,18 +71,19 @@ def chatbot_page():
         submit_btn = "Enter"
     )
 
+# 페이지 선택 함수
 def select_page(page):
     if page == "로그인":
-        return gr.update(visible=True), gr.update(visible=False), gr.update(visible=False), gr.update(value="")
+        return gr.update(visible=True), gr.update(visible=False), gr.update(visible=False)
     else:
         # 로그인 상태를 확인하여 페이지 접근 허용 여부 결정
-        if userRequest.check_login_status():  # 로그인 여부 확인
+        if userRequest.check_login_status():
             if page == "챗봇":
-                return gr.update(visible=False), gr.update(visible=True), gr.update(visible=False), gr.update(value="")
+                return gr.update(visible=False), gr.update(visible=True), gr.update(visible=False)
             elif page == "기록 보기":
-                return gr.update(visible=False), gr.update(visible=False), gr.update(visible=True), gr.update(value="")
+                return gr.update(visible=False), gr.update(visible=False), gr.update(visible=True)
         else:
-            return gr.update(visible=True), gr.update(visible=False), gr.update(visible=False), gr.update(value=popup_message)
+            return gr.update(visible=True), gr.update(visible=False), gr.update(visible=False)  # 로그인 페이지로 이동
 
 # Main Interface
 with gr.Blocks(theme="soft") as demo:
@@ -87,11 +108,11 @@ with gr.Blocks(theme="soft") as demo:
     with chatbot_page_box:
         chatbot_page()
     with history_page_box:
-        hp.history_Page(chat_history)
+        historyPage.history_Page(chat_history)
 
     # 버튼 클릭 시 페이지 전환 (로그인 상태 확인)
-    login_btn.click(select_page, inputs=[gr.State("로그인")], outputs=[login_page_box, chatbot_page_box, history_page_box, popup_message])
-    chatbot_btn.click(select_page, inputs=[gr.State("챗봇")], outputs=[login_page_box, chatbot_page_box, history_page_box, popup_message])
-    history_btn.click(select_page, inputs=[gr.State("기록 보기")], outputs=[login_page_box, chatbot_page_box, history_page_box, popup_message])
+    login_btn.click(select_page, inputs=[gr.State("로그인")], outputs=[login_page_box, chatbot_page_box, history_page_box])
+    chatbot_btn.click(select_page, inputs=[gr.State("챗봇")], outputs=[login_page_box, chatbot_page_box, history_page_box])
+    history_btn.click(select_page, inputs=[gr.State("기록 보기")], outputs=[login_page_box, chatbot_page_box, history_page_box])
 
 demo.launch()

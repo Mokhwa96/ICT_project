@@ -1,5 +1,7 @@
 package com.overmind.overmind_chatbot.service;
 
+import java.util.stream.Collectors;
+import com.overmind.overmind_chatbot.dto.AnswerDTO;
 import com.overmind.overmind_chatbot.entity.Answer;
 import com.overmind.overmind_chatbot.repository.AnswerRepository;
 import org.springframework.beans.factory.annotation.Autowired;

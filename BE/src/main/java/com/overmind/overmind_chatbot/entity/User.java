@@ -1,5 +1,9 @@
 package com.overmind.overmind_chatbot.entity;
 
+import com.overmind.overmind_chatbot.entity.enums.Role;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,6 +12,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "users")
+@EntityListeners(AuditingEntityListener.class)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,12 +31,15 @@ public class User {
     @Column(name = "name", length = 100, nullable = false)
     private String name;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "role", length = 50, nullable = false)
-    private String role;
+    private Role role;
 
-    @Column(name = "created_at", nullable = false)
+    @CreatedDate
+    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
+    @LastModifiedDate
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 }

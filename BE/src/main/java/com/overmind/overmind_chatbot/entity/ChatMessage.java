@@ -1,43 +1,42 @@
 package com.overmind.overmind_chatbot.entity;
 
 import lombok.*;
+import com.overmind.overmind_chatbot.entity.enums.MessageType;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "answers")
+@Table(name = "chat_messages")
 @EntityListeners(AuditingEntityListener.class)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Answer {
+@Builder
+public class ChatMessage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Question 엔티티와 연관관계 설정
-    @ManyToOne
-    @JoinColumn(name = "question_id", nullable = false)
-    private Question question;
+    // 메시지 타입 (USER 또는 BOT)
+    @Enumerated(EnumType.STRING)
+    @Column(name = "message_type", nullable = false)
+    private MessageType messageType;
 
+    // 메시지 내용
     @Column(name = "content", columnDefinition = "TEXT", nullable = false)
     private String content;
 
+    // 메시지 생성 시간
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    @LastModifiedDate
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
-
-    // User 엔티티와 연관관계 설정
+    // 사용자 정보 (Optional)
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id")
     private User user;
 }

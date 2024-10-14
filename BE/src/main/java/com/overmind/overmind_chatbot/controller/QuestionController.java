@@ -3,28 +3,20 @@ package com.overmind.overmind_chatbot.controller;
 import com.overmind.overmind_chatbot.dto.QuestionDto;
 import com.overmind.overmind_chatbot.entity.Question;
 import com.overmind.overmind_chatbot.service.QuestionService;
-//import org.modelmapper.ModelMapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.http.HttpStatus;
 import javax.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/questions")
 public class QuestionController {
-
-    private final QuestionService questionService;
-    private final ModelMapper modelMapper;
-
     @Autowired
-    public QuestionController(QuestionService questionService, ModelMapper modelMapper) {
-        this.questionService = questionService;
-        this.modelMapper = modelMapper;
-    }
+    private QuestionService questionService;
 
     // 질문 등록
     @PostMapping
@@ -32,7 +24,7 @@ public class QuestionController {
         Question question = modelMapper.map(questionDto, Question.class);
         Question savedQuestion = questionService.createQuestion(question);
         QuestionDto savedQuestionDto = modelMapper.map(savedQuestion, QuestionDto.class);
-        return ResponseEntity.ok(savedQuestionDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedQuestionDto);
     }
 
     // 질문 목록 조회
@@ -71,12 +63,8 @@ public class QuestionController {
     // 질문 삭제
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteQuestion(@PathVariable Long id) {
-        boolean deleted = questionService.deleteQuestion(id);
-        if (deleted) {
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        questionService.deleteQuestion(id);
+        return ResponseEntity.noContent().build();
     }
 
     // 전체 질문 삭제

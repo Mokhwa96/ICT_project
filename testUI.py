@@ -1,7 +1,7 @@
 import gradio as gr
-import AnswerRequest as answerRequest
-import QuestionRequest as questionRequest
-import UserRequest as userRequest
+import userRequest
+import questionRequest
+import answerRequest
 import requests
 
 SESSION_CHECK_API_URL = "http://localhost:8080/user/checkSession"
@@ -10,6 +10,7 @@ def response(message, history):
     # 답변을 조회하는 함수 호출
     #questionRequest.create_question(message)
     #request = answerRequest.get_answers(1)
+    
     # 질문을 생성하는 함수 호출
     question_id = questionRequest.create_question(message)
     
@@ -68,17 +69,6 @@ def chatbot_page():
         clear_btn="전체 채팅 💫",
         submit_btn = "Enter"
     )
-
-# 기록 보기 페이지 구성
-def history_page(chat_history):
-    if chat_history:
-        gr.Markdown("### Chat History")
-        for question, answer in chat_history:
-            gr.Markdown(f"**Q**: {question}")
-            gr.Markdown(f"**A**: {answer}")
-    else:
-        gr.Markdown("No chat history available.")
-
 
 # 페이지 선택 함수
 def select_page(page):

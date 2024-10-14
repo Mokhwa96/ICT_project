@@ -17,8 +17,6 @@ import javax.validation.Valid;
 public class QuestionController {
     @Autowired
     private QuestionService questionService;
-    @Autowired
-    private ModelMapper modelMapper;
 
     // 질문 등록
     @PostMapping

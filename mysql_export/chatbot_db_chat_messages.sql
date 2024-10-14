@@ -8,4 +8,3 @@ CREATE TABLE `chat_messages` (
   KEY `user_id` (`user_id`),
   CONSTRAINT `chat_messages_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-

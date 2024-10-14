@@ -1,7 +1,7 @@
 import gradio as gr
 import userRequest
-import questionRequest
-import answerRequest
+import questionReq
+import answerReq
 import historyPage
 import requests
 
@@ -13,11 +13,11 @@ def response(message, history):
     #request = answerRequest.get_answers(1)
     
     # 질문을 생성하는 함수 호출
-    question_id = questionRequest.create_question(message)
+    question_id = questionReq.create_question(message)
     
     # 질문 생성이 성공했을 때만 답변을 조회
     if isinstance(question_id, dict) and "error" not in question_id:
-        request = answerRequest.get_answers(question_id)
+        request = answerReq.get_answers(question_id)
     else:
         return "질문 생성에 실패했습니다."
     
@@ -108,7 +108,7 @@ with gr.Blocks(theme="soft") as demo:
     with chatbot_page_box:
         chatbot_page()
     with history_page_box:
-        history_page(chat_history)
+        historyPage.history_Page(chat_history)
 
     # 버튼 클릭 시 페이지 전환 (로그인 상태 확인)
     login_btn.click(select_page, inputs=[gr.State("로그인")], outputs=[login_page_box, chatbot_page_box, history_page_box])

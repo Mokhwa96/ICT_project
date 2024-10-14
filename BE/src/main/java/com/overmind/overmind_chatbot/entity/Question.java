@@ -1,8 +1,8 @@
 package com.overmind.overmind_chatbot.entity;
 
-import lombok.*;
 import com.overmind.overmind_chatbot.entity.enums.QuestionStatus;
 import com.overmind.overmind_chatbot.entity.enums.Visibility;
+import lombok.*;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;

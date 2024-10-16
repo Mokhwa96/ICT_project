@@ -1,0 +1,57 @@
+-- MySQL dump 10.13  Distrib 8.0.36, for Win64 (x86_64)
+--
+-- Host: localhost    Database: chatbot_db
+-- ------------------------------------------------------
+-- Server version	8.0.37
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `questions`
+--
+
+DROP TABLE IF EXISTS `questions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `questions` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) DEFAULT NULL,
+  `content` text,
+  `status` varchar(50) DEFAULT NULL,
+  `visibility` varchar(50) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `user_id` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `questions`
+--
+
+LOCK TABLES `questions` WRITE;
+/*!40000 ALTER TABLE `questions` DISABLE KEYS */;
+INSERT INTO `questions` VALUES (1,'운동하기','오늘 운동하기','QUESTION_REGISTERED','PUBLIC','2023-06-13 12:00:00','2023-06-13 12:00:00','user'),(2,'공부하기','오늘 공부하기','QUESTION_REGISTERED','SECRET','2023-06-13 12:00:00','2023-06-13 12:00:00','user'),(12,'My question title','What is AI?','QUESTION_REGISTERED','PUBLIC','2024-10-17 00:36:30','2024-10-17 00:36:30','user'),(13,'My question title','What is AI?','QUESTION_REGISTERED','PUBLIC','2024-10-17 00:39:00','2024-10-17 00:39:00','user'),(14,'My question title','안녕?','QUESTION_REGISTERED','PUBLIC','2024-10-17 00:39:16','2024-10-17 00:39:16','user'),(15,'My question title','안녕?','QUESTION_REGISTERED','PUBLIC','2024-10-17 00:41:36','2024-10-17 00:41:36','user'),(16,'My question title','안녕?','QUESTION_REGISTERED','PUBLIC','2024-10-17 00:43:51','2024-10-17 00:43:51','user'),(17,'My question title','안녕?','QUESTION_REGISTERED','PUBLIC','2024-10-17 00:44:13','2024-10-17 00:44:13','user'),(18,'My question title','안녕?','QUESTION_REGISTERED','PUBLIC','2024-10-17 00:44:41','2024-10-17 00:44:41','user'),(19,'My question title','안녕?','QUESTION_ANSWERED','PUBLIC','2024-10-17 00:56:04','2024-10-17 00:56:04','user'),(20,'My question title','안녕?','QUESTION_ANSWERED','PUBLIC','2024-10-17 00:58:05','2024-10-17 00:58:10','user'),(21,'My question title','안녕?','QUESTION_ANSWERED','PUBLIC','2024-10-17 01:09:34','2024-10-17 01:09:34','user'),(22,'My question title','안녕?','QUESTION_ANSWERED','PUBLIC','2024-10-17 01:16:44','2024-10-17 01:16:44','user'),(23,'질병 분석','안녕?','QUESTION_ANSWERED','PUBLIC','2024-10-17 01:17:10','2024-10-17 01:17:10','user'),(24,'질병 분석','안녕?','QUESTION_ANSWERED','PUBLIC','2024-10-17 01:17:57','2024-10-17 01:17:57','user'),(25,'질병 분석','안녕?','QUESTION_ANSWERED','PUBLIC','2024-10-17 01:27:57','2024-10-17 01:27:57','user'),(26,'질병 분석','qq','QUESTION_ANSWERED','PUBLIC','2024-10-17 01:35:22','2024-10-17 01:35:22','user'),(27,'질병 분석','aa','QUESTION_ANSWERED','PUBLIC','2024-10-17 01:35:40','2024-10-17 01:35:40','user'),(28,'질병 분석','aaa','QUESTION_ANSWERED','PUBLIC','2024-10-17 01:38:16','2024-10-17 01:38:16','user'),(29,'질병 분석','준비됨?','QUESTION_ANSWERED','PUBLIC','2024-10-17 01:41:23','2024-10-17 01:41:23','user'),(30,'질병 분석','ss','QUESTION_ANSWERED','PUBLIC','2024-10-17 01:44:06','2024-10-17 01:44:06','user'),(31,'질병 분석','안녕','QUESTION_REGISTERED','PUBLIC','2024-10-17 01:45:09','2024-10-17 01:45:09','user'),(32,'질병 분석','안녕','QUESTION_ANSWERED','PUBLIC','2024-10-17 01:45:57','2024-10-17 01:45:58','user'),(33,'질병 분석','잘 작동되고 있니?','QUESTION_ANSWERED','PUBLIC','2024-10-17 01:46:07','2024-10-17 01:46:08','user'),(34,'질병 분석','','QUESTION_ANSWERED','PUBLIC','2024-10-17 01:51:46','2024-10-17 01:51:47','user'),(35,'질병 분석','안녕','QUESTION_ANSWERED','PUBLIC','2024-10-17 01:51:54','2024-10-17 01:51:55','user'),(36,'질병 분석','','QUESTION_REGISTERED','PUBLIC','2024-10-17 01:52:27','2024-10-17 01:52:27','user'),(37,'질병 분석','dkssud','QUESTION_REGISTERED','PUBLIC','2024-10-17 01:55:10','2024-10-17 01:55:10','user'),(38,'질병 분석','안녕','QUESTION_REGISTERED','PUBLIC','2024-10-17 01:55:14','2024-10-17 01:55:14','user'),(39,'질병 분석','야 왜 안돼?','QUESTION_REGISTERED','PUBLIC','2024-10-17 01:55:24','2024-10-17 01:55:24','user');
+/*!40000 ALTER TABLE `questions` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2024-10-17  1:56:47

@@ -6,6 +6,7 @@ LOGIN_API_URL = "http://localhost:8080/user/login"
 LOGOUT_API_URL = "http://localhost:8080/user/logout"
 SESSION_CHECK_API_URL = "http://localhost:8080/user/checkSession"
 
+# 세션 객체 생성
 session = requests.Session()
 
 # 로그인 요청 함수
@@ -17,20 +18,34 @@ def login(user_id, password):
     # Spring REST API에 POST 요청 (세션 객체 사용)
     response = session.post(LOGIN_API_URL, json=data)
 
-    # 응답 결과에 따라 메시지 반환
     if response.status_code == 200:
         return response.text
     else:
         return "로그인 실패! 사용자 이름 또는 비밀번호가 틀렸습니다."
     
-    # 로그아웃 요청 함수
+# 로그아웃 요청 함수
 def logout():
     response = session.get(LOGOUT_API_URL)
     return response.text
 
+def create_question(content):
+    url = "http://localhost:8080/send-to-google-ai"
+    payload = {"title" : "질병 분석", "content": content}
+    
+    # 세션 객체를 사용하여 POST 요청을 보냄
+    response = session.post(url, json=payload)  # session.post()를 사용
+    print(response)
+    print(response.text)
+    if response.status_code == 200:
+        return response.text 
+    elif response.status_code == 400:
+        return "세션에 문제가 있습니다."
+    else :
+        return response
+
 # 세션 상태 확인 함수
 def check_session():
-    response = requests.get(SESSION_CHECK_API_URL)
+    response = session.get(SESSION_CHECK_API_URL)  # 세션 객체를 사용하도록 수정
     return response.text
 
 # 로그인 상태 확인 함수 : 로그인을 해야 챗봇이랑, 기록보기를 사용할 수 있음.

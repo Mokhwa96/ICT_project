@@ -19,8 +19,6 @@ public class UsersController {
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody Map<String, String> loginData, HttpSession session) {
-        System.out.println(session);
-        System.out.println("controller - loginData :" + loginData);
         // 로그인 체크 후 세션 설정
         ResponseEntity<String> response = usersService.LoginCheck(loginData);
         if (response.getStatusCode().is2xxSuccessful()) {

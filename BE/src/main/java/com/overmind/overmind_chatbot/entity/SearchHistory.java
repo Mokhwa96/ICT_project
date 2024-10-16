@@ -19,7 +19,7 @@ public class SearchHistory {
     private Long id;
 
     @Column(name = "user_id", nullable = false)
-    private Long userId;
+    private String uid;
 
     @Column(name = "keyword", length = 255, nullable = false)
     private String keyword;

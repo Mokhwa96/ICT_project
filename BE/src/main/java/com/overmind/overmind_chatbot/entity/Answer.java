@@ -20,9 +20,8 @@ public class Answer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Question 엔티티와 연관관계 설정
     @ManyToOne
-    @JoinColumn(name = "question_id", nullable = false)
+    @JoinColumn(name = "question_id", nullable = false) // 외래 키 question_id로 설정
     private Question question;
 
     @Column(name = "content", columnDefinition = "TEXT", nullable = false)
@@ -36,8 +35,6 @@ public class Answer {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    // User 엔티티와 연관관계 설정
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @Column(name = "user_id")
+    private String uid;
 }

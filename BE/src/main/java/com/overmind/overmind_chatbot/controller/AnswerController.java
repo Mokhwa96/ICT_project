@@ -15,8 +15,6 @@ public class AnswerController {
     @Autowired
     private AnswerService answerService;
 
-    //실시간 응답 처리
-    // 답변 목록 조회 (특정 질문 ID로)
     @GetMapping("/{questionId}")
     public ResponseEntity<List<Answer>> getAnswersByQuestionId(@PathVariable Long questionId) {
         List<Answer> answers = answerService.getAnswersByQuestionId(questionId);
@@ -24,13 +22,6 @@ public class AnswerController {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(answers);
-    }
-
-    // POST: /answers
-    @PostMapping
-    public ResponseEntity<Answer> createAnswer(@RequestBody Answer answer) {
-        Answer savedAnswer = answerService.createAnswer(answer);
-        return ResponseEntity.ok(savedAnswer);
     }
 
     // PATCH: /answers/{id}

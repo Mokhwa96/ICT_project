@@ -15,9 +15,9 @@ public class UsersService {
     UsersRepository usersRepository;
 
     public ResponseEntity LoginCheck( Map<String, String> loginData) {
-        String username = loginData.get("user_id");
+        String uid = loginData.get("user_id");
         String password = loginData.get("password");
-        User user = usersRepository.findByNameAndPassword(username,password);
+        User user = usersRepository.findByUidAndPassword(uid,password);
         System.out.println(user);
 
         if (user != null && user.getPassword().equals(password)) {

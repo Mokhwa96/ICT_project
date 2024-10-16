@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 public interface QuestionRepository extends JpaRepository<Question, Long> {
     Page<Question> findByTitleContaining(String title, Pageable pageable);
     Page<Question> findByContentContaining(String content, Pageable pageable);
-    Page<Question> findByUserId(Long userId, Pageable pageable);
     Page<Question> findByStatus(QuestionStatus status, Pageable pageable);
     Page<Question> findByVisibility(Visibility visibility, Pageable pageable);
     Page<Question> findByCreatedAtBetween(LocalDateTime startDate, LocalDateTime endDate, Pageable pageable);

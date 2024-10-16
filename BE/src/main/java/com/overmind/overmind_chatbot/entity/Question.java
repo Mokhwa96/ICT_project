@@ -46,10 +46,7 @@ public class Question {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @Column(name = "user_id")
+    private String uid;
 
-    // @PrePersist와 @PreUpdate 메서드는 삭제.
-    //@CreatedDate와 @LastModifiedDate를 사용하므로 필요 없음
 }

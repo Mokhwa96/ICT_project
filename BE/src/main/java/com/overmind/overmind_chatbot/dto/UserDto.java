@@ -1,6 +1,6 @@
 package com.overmind.overmind_chatbot.dto;
 
-import com.overmind.overmind_chatbot.enums.Role;
+import com.overmind.overmind_chatbot.entity.enums.Role;
 import lombok.*;
 import java.time.LocalDateTime;
 

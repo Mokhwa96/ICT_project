@@ -1,7 +1,7 @@
 package com.overmind.overmind_chatbot.dto;
 
-import com.overmind.overmind_chatbot.entity.QuestionStatus;
-import com.overmind.overmind_chatbot.entity.Visibility;
+import com.overmind.overmind_chatbot.entity.enums.QuestionStatus;
+import com.overmind.overmind_chatbot.entity.enums.Visibility;
 import com.overmind.overmind_chatbot.dto.UserDto;
 import lombok.*;
 

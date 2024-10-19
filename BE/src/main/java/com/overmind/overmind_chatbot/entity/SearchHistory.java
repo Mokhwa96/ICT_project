@@ -21,8 +21,8 @@ public class SearchHistory {
     @Column(name = "user_id", nullable = false)
     private String uid;
 
-    @Column(name = "keyword", length = 255, nullable = false)
-    private String keyword;
+    @Column(name = "find_uid", length = 255, nullable = false)
+    private String fuid;
 
     @Column(name = "searched_at", nullable = false)
     private LocalDateTime searchedAt;

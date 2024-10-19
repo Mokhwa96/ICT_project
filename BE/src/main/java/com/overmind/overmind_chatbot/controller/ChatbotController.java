@@ -30,7 +30,6 @@ public class ChatbotController {
         this.answerService = answerService;
     }
 
-
     @PostMapping("/send-to-google-ai")
     public ResponseEntity<String> sendToGoogleAI(
             @RequestBody Map<String, String> payload,
@@ -43,7 +42,7 @@ public class ChatbotController {
             Question savedQuestion = questionService.saveQuestion(title, userInput, uid); // userId 사용
             // 질문이 저장된 후에 AI에게 요청을 보냄
             String botResponse = chatbotService.sendToGoogleAI(userInput);
-            //String botResponse = "임시 테스트용 답변";
+//            String botResponse = "임시 테스트용 답변";
             // 질문 상태 변경 (답변 완료)
             Long questionId = savedQuestion.getId();
             questionService.updateQuestionStatus(questionId, QuestionStatus.QUESTION_ANSWERED);

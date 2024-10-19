@@ -43,7 +43,7 @@ def chatbot_page():
         retry_btn="다시보내기 ↩",
         undo_btn="이전챗 삭제 ❌",
         clear_btn="전체 채팅 💫",
-        submit_btn = "Enter"
+        submit_btn="Enter",
     )
 
 # 페이지 선택 함수

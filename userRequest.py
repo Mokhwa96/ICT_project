@@ -30,7 +30,7 @@ def logout():
 
 def create_question(content):
     url = "http://localhost:8080/send-to-google-ai"
-    payload = {"title" : "질병 분석", "content": content}
+    payload = {"content": content}
     
     # 세션 객체를 사용하여 POST 요청을 보냄
     response = session.post(url, json=payload)  # session.post()를 사용

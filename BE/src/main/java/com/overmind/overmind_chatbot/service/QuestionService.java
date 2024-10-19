@@ -43,7 +43,6 @@ public class QuestionService {
     // 질문 수정
     public Question updateQuestion(Long id, Question updatedQuestion) {
         return questionRepository.findById(id).map(question -> {
-            question.setTitle(updatedQuestion.getTitle());
             question.setContent(updatedQuestion.getContent());
             question.setStatus(updatedQuestion.getStatus());
             question.setVisibility(updatedQuestion.getVisibility());
@@ -68,7 +67,6 @@ public class QuestionService {
     @Transactional
     public Question saveQuestion(String title, String content, String userId) {
         Question question = new Question();
-        question.setTitle(title);
         question.setContent(content);
         question.setStatus(QuestionStatus.QUESTION_REGISTERED);
         question.setVisibility(Visibility.PUBLIC);

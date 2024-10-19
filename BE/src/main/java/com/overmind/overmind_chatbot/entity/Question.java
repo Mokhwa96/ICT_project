@@ -24,9 +24,6 @@ public class Question {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "title", length = 255, nullable = false)
-    private String title;
-
     @Column(name = "content", columnDefinition = "TEXT", nullable = false)
     private String content;
 

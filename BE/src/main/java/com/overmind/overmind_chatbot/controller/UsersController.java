@@ -1,21 +1,33 @@
 package com.overmind.overmind_chatbot.controller;
 
 
+import com.overmind.overmind_chatbot.dto.QuestionRecordDTO;
+
+import com.overmind.overmind_chatbot.entity.User;
+import com.overmind.overmind_chatbot.repository.QuestionRepository;
+import com.overmind.overmind_chatbot.repository.UsersRepository;
+import com.overmind.overmind_chatbot.service.QuestionService;
 import com.overmind.overmind_chatbot.service.UsersService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+
+import java.util.List;
+import java.util.Map;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpSession;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
 public class UsersController {
 
-    @Autowired
-    private UsersService usersService;
+    private final UsersService usersService;
+    private final UsersRepository usersRepository;
+    private final QuestionService questionService;
+
+    public UsersController(UsersService usersService, UsersRepository usersRepository, QuestionRepository questionService, QuestionService questionService1) {
+        this.usersService = usersService;
+        this.usersRepository = usersRepository;
+        this.questionService = questionService1;
+    }
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody Map<String, String> loginData, HttpSession session) {
@@ -46,5 +58,19 @@ public class UsersController {
         } else {
             return ResponseEntity.status(401).body("로그인된 사용자가 없습니다.");
         }
+    }
+
+    //기록 확인
+    @GetMapping("/user-records")
+    public List<QuestionRecordDTO> getUserRecords(@RequestParam("user_id") String user_Id) {
+        // UsersRepository를 사용하여 User 객체를 조회
+        User user = usersRepository.findByUserId(user_Id)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        // User 객체에서 ID(Long 타입)를 추출
+        Long userId = user.getId();
+
+        // 추출한 userId로 QuestionRecordDTO 목록을 가져옴
+        return questionService.getUserRecords(userId);
     }
 }

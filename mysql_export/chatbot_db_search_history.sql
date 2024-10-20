@@ -23,13 +23,13 @@ DROP TABLE IF EXISTS `search_history`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `search_history` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `user_id` bigint NOT NULL,
-  `keyword` varchar(255) NOT NULL,
-  `searched_at` datetime NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int DEFAULT NULL,
+  `search_record` varchar(255) DEFAULT NULL,
+  `search_time` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
-  CONSTRAINT `search_history_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+  CONSTRAINT `search_history_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -39,7 +39,7 @@ CREATE TABLE `search_history` (
 
 LOCK TABLES `search_history` WRITE;
 /*!40000 ALTER TABLE `search_history` DISABLE KEYS */;
-INSERT INTO `search_history` VALUES (1,1,'운동','2023-06-13 12:00:00'),(2,2,'공부','2023-06-13 12:00:00');
+INSERT INTO `search_history` VALUES (1,2,'user2',NULL),(2,3,'user1',NULL);
 /*!40000 ALTER TABLE `search_history` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -52,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-10-01 14:00:46
+-- Dump completed on 2024-10-21  1:40:38

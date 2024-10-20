@@ -56,3 +56,14 @@ def check_login_status():
         return True  # 로그인된 상태
     else:
         return False  # 로그인되지 않은 상태
+    
+# Spring 서버에서 세션 정보를 가져오는 함수
+def fetch_user_id():
+    try:
+        response = requests.get("http://localhost:8080/session-userid")
+        response.raise_for_status()
+        user_id = response.json().get("userId", "")
+        return user_id
+    except requests.exceptions.RequestException as e:
+        print(f"Error fetching user ID: {e}")
+        return ""  # 오류가 발생하면 빈 문자열 반환

@@ -6,11 +6,14 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
+
+import javax.persistence.*;
+import lombok.*;
 
 @Entity
 @Table(name = "answers")
-@EntityListeners(AuditingEntityListener.class)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,20 +24,20 @@ public class Answer {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "question_id", nullable = false) // 외래 키 question_id로 설정
+    @JoinColumn(name = "question_id")
     private Question question;
 
-    @Column(name = "content", columnDefinition = "TEXT", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     private String content;
 
     @CreatedDate
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+    @Column(name = "created_at", updatable = false)
+    private Timestamp createdAt;
 
     @LastModifiedDate
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
-
-    @Column(name = "user_id")
-    private String uid;
+    @Column(name = "update_at")
+    private Timestamp updateAt;
 }

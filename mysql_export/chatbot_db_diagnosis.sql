@@ -16,35 +16,34 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `questions`
+-- Table structure for table `diagnosis`
 --
 
-DROP TABLE IF EXISTS `questions`;
+DROP TABLE IF EXISTS `diagnosis`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `questions` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) NOT NULL,
-  `content` text NOT NULL,
-  `status` varchar(50) NOT NULL,
-  `visibility` varchar(50) NOT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL,
-  `user_id` bigint DEFAULT NULL,
+CREATE TABLE `diagnosis` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int DEFAULT NULL,
+  `symptom_id` int DEFAULT NULL,
+  `predicted_disease` varchar(255) DEFAULT NULL,
+  `diagnosis_date` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
-  CONSTRAINT `questions_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+  KEY `symptom_id` (`symptom_id`),
+  CONSTRAINT `diagnosis_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `diagnosis_ibfk_2` FOREIGN KEY (`symptom_id`) REFERENCES `symptoms` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `questions`
+-- Dumping data for table `diagnosis`
 --
 
-LOCK TABLES `questions` WRITE;
-/*!40000 ALTER TABLE `questions` DISABLE KEYS */;
-INSERT INTO `questions` VALUES (1,'운동하기','오늘 운동하기','QUESTION_REGISTERED','PUBLIC','2023-06-13 12:00:00','2023-06-13 12:00:00',1),(2,'공부하기','오늘 공부하기','QUESTION_REGISTERED','SECRET','2023-06-13 12:00:00','2023-06-13 12:00:00',1);
-/*!40000 ALTER TABLE `questions` ENABLE KEYS */;
+LOCK TABLES `diagnosis` WRITE;
+/*!40000 ALTER TABLE `diagnosis` DISABLE KEYS */;
+INSERT INTO `diagnosis` VALUES (1,2,1,'감기','2024-10-20 12:51:45'),(2,3,3,'편두통','2024-10-20 12:51:45');
+/*!40000 ALTER TABLE `diagnosis` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -56,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-09-26 23:54:15
+-- Dump completed on 2024-10-21  1:40:38

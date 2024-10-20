@@ -1,10 +1,11 @@
 package com.overmind.overmind_chatbot.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "tokens")
@@ -17,18 +18,17 @@ public class Token {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "user_id", nullable = false)
-    private String uid;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    @Column(name = "token", length = 255, nullable = false)
     private String token;
 
-    @Column(name = "expires_at", nullable = false)
-    private LocalDateTime expiresAt;
+    @CreatedDate
+    @Column(name = "created_at")
+    private Timestamp createdAt;
 
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
-
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    @LastModifiedDate
+    @Column(name = "update_at")
+    private Timestamp updateAt;
 }

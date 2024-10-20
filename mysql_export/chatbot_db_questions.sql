@@ -23,18 +23,16 @@ DROP TABLE IF EXISTS `questions`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `questions` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) DEFAULT NULL,
-  `content` text,
-  `status` varchar(50) DEFAULT NULL,
-  `visibility` varchar(50) DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  `user_id` bigint DEFAULT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int DEFAULT NULL,
+  `content` varchar(255) DEFAULT NULL,
+  `status` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `update_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
-  CONSTRAINT `questions_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `questions_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -43,7 +41,7 @@ CREATE TABLE `questions` (
 
 LOCK TABLES `questions` WRITE;
 /*!40000 ALTER TABLE `questions` DISABLE KEYS */;
-INSERT INTO `questions` VALUES (1,'운동하기','오늘 운동하기','QUESTION_REGISTERED','PUBLIC','2023-06-13 12:00:00','2023-06-13 12:00:00',1),(2,'공부하기','오늘 공부하기','QUESTION_REGISTERED','SECRET','2023-06-13 12:00:00','2023-06-13 12:00:00',1),(3,NULL,'',NULL,NULL,NULL,NULL,NULL),(4,NULL,'안녕하세요',NULL,NULL,NULL,NULL,NULL),(5,NULL,'ㅁㅁㅁㅁㅁ',NULL,NULL,'2024-10-01 13:53:45','2024-10-01 13:53:45',NULL);
+INSERT INTO `questions` VALUES (21,1,'','1','2024-10-20 16:03:55',NULL),(22,1,'안녕','1','2024-10-20 16:31:19',NULL);
 /*!40000 ALTER TABLE `questions` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -56,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-10-01 14:00:45
+-- Dump completed on 2024-10-21  1:40:39

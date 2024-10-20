@@ -1,7 +1,6 @@
 package com.overmind.overmind_chatbot.dto;
 
 import lombok.*;
-import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor

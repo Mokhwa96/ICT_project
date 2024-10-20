@@ -23,18 +23,18 @@ DROP TABLE IF EXISTS `answers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `answers` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `question_id` bigint NOT NULL,
-  `content` text NOT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL,
-  `user_id` bigint NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `question_id` int DEFAULT NULL,
+  `user_id` int DEFAULT NULL,
+  `content` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `update_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `question_id` (`question_id`),
-  KEY `user_id` (`user_id`),
-  CONSTRAINT `answers_ibfk_1` FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`),
-  CONSTRAINT `answers_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `FK5bp3d5loftq2vjn683ephn75a` (`user_id`),
+  CONSTRAINT `FK3erw1a3t0r78st8ty27x6v3g1` FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`),
+  CONSTRAINT `FK5bp3d5loftq2vjn683ephn75a` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -43,7 +43,7 @@ CREATE TABLE `answers` (
 
 LOCK TABLES `answers` WRITE;
 /*!40000 ALTER TABLE `answers` DISABLE KEYS */;
-INSERT INTO `answers` VALUES (1,1,'이렇게 하면 어떻게 되지?','2023-06-13 12:00:00','2023-06-13 12:00:00',2),(2,2,'공부는 중요합니다.','2023-06-13 12:00:00','2023-06-13 12:00:00',2);
+INSERT INTO `answers` VALUES (15,21,1,'임시 테스트용 답변','2024-10-20 16:03:55',NULL),(16,22,1,'임시 테스트용 답변','2024-10-20 16:31:19',NULL);
 /*!40000 ALTER TABLE `answers` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -56,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-10-01 14:00:46
+-- Dump completed on 2024-10-21  1:40:39

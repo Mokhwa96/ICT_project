@@ -1,18 +1,17 @@
 package com.overmind.overmind_chatbot.entity;
 
-import com.overmind.overmind_chatbot.entity.enums.Role;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
+
 
 @Entity
 @Table(name = "users")
-@EntityListeners(AuditingEntityListener.class)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,27 +21,22 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "user_id", nullable = false, unique = true)
-    private String uid;
+    @Column(nullable = false, unique = true)
+    private String userId;
 
-    @Column(name = "password", length = 255, nullable = false)
+    @Column(nullable = false)
     private String password;
 
-    @Column(name = "name", length = 100, nullable = false)
     private String name;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "role", length = 50, nullable = false)
-    private Role role;
+    private String role;
+    private String location;
 
     @CreatedDate
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+    @Column(name = "created_at")
+    private Timestamp createdAt;
 
     @LastModifiedDate
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
-
-    @Column(name = "location")
-    private String location;
+    @Column(name = "update_at")
+    private Timestamp updateAt;
 }
+

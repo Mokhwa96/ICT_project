@@ -3,30 +3,33 @@ package com.overmind.overmind_chatbot.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.data.annotation.CreatedDate;
+
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 @Entity
+@Table(name = "diagnosis")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "diagnosis")
 public class Diagnosis {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    @Column(name = "symptom_id", nullable = false)
-    private Long symptomId;
+    @ManyToOne
+    @JoinColumn(name = "symptom_id")
+    private Symptom symptom;
 
-    @Column(name = "predicted_disease", length = 255, nullable = false)
     private String predictedDisease;
 
-    @Column(name = "diagnosis_date", nullable = false)
-    private LocalDateTime diagnosisDate;
+    @CreatedDate
+    @Column(name = "diagnosis_date")
+    private Timestamp diagnosisDate;
 }

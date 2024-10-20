@@ -1,10 +1,11 @@
 package com.overmind.overmind_chatbot.service;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.stream.Collectors;
-import com.overmind.overmind_chatbot.dto.AnswerDTO;
+
 import com.overmind.overmind_chatbot.entity.Answer;
 import com.overmind.overmind_chatbot.entity.Question;
+import com.overmind.overmind_chatbot.entity.User;
 import com.overmind.overmind_chatbot.repository.AnswerRepository;
 import com.overmind.overmind_chatbot.repository.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class AnswerService {
     }
 
     @Transactional
-    public Answer saveAnswer(Long questionId, String content, String userId) {
+    public Answer saveAnswer(Long questionId, String content, User userId) {
         // 질문을 먼저 조회
         Question question = questionRepository.findById(questionId)
                 .orElseThrow(() -> new IllegalArgumentException("Question not found"));
@@ -39,8 +40,8 @@ public class AnswerService {
         Answer answer = new Answer();
         answer.setQuestion(question);  // 외래 키로 Question 설정
         answer.setContent(content);
-        answer.setUid(userId);  // 답변 작성자의 ID 설정
-        answer.setCreatedAt(LocalDateTime.now());
+        answer.setUser(userId);  // 답변 작성자의 ID 설정
+        answer.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
 
         // 답변 저장
         return answerRepository.save(answer);

@@ -3,15 +3,16 @@ package com.overmind.overmind_chatbot.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "search_history")
+@Table(name = "symptoms")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SearchHistory {
+public class Symptom {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,8 +22,9 @@ public class SearchHistory {
     @JoinColumn(name = "user_id")
     private User user;
 
-    private String searchRecord;
+    private String symptom;
 
-    @Column(name = "search_time")
-    private Timestamp search_time;
+    @Column(name = "created_at")
+    private Timestamp createdAt;
 }
+

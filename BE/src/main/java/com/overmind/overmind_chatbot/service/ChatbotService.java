@@ -27,7 +27,6 @@ public class ChatbotService {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        // Google AI Studio로 보낼 JSON 데이터 구조 만들기
         Map<String, Object> textPart = new HashMap<>();
         textPart.put("text", userInput);
 

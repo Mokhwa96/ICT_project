@@ -52,8 +52,8 @@ public class ChatbotController {
             System.out.println("Saved question with ID: " + savedQuestion.getId());
 
             // 질문이 저장된 후에 AI에게 요청을 보냄
-            //String botResponse = chatbotService.sendToGoogleAI(userInput);
-            String botResponse = "임시 테스트용 답변";
+            String botResponse = chatbotService.sendToGoogleAI(userInput);
+            //String botResponse = "임시 테스트용 답변";
             System.out.println("Bot response: " + botResponse);
 
             // 질문 상태 변경 (답변 완료)
@@ -65,7 +65,7 @@ public class ChatbotController {
             return ResponseEntity.ok(botResponse);
         } catch (Exception e) {
             e.printStackTrace();  // 예외의 스택 트레이스를 출력하여 문제의 원인을 확인
-            return ResponseEntity.status(500).body("현재 연결이 안되고 있어요ㅠㅠ");
+            return ResponseEntity.status(500).body("현재 연결이 안되고 있어요");
         }
     }
 }

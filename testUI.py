@@ -1,13 +1,70 @@
 import gradio as gr
 import userRequest
 import historyPage
+import googlemaps
+import asyncio
+import requests
 
 SESSION_CHECK_API_URL = "http://localhost:8080/user/checkSession"
+GMAPS_API_KEY = ""  # Google Maps API 키를 설정하세요.
+SPRING_API_URL = "http://localhost:8080/analyze"
 
-def response(message, history):
-    return userRequest.create_question(message)
+gmaps = googlemaps.Client(key=GMAPS_API_KEY)
+
+chat_history = []
+
+def response(message, chat_history):
+    chat_history.append(message)  # 대화 기록에 사용자 메시지 추가
+    response_message = userRequest.create_question(message)
+    chat_history.append(response_message)  # 대화 기록에 챗봇 응답 추가
+    return response_message
+
+async def recommend_hospital(chat_history, user_location):
+    # Spring 서버에 대화 기록을 POST 요청으로 전송
+    response = requests.post(SPRING_API_URL, json={"chat_history": chat_history})
     
-# 로그인 페이지 구성
+    if response.status_code == 200:
+        data = response.json()
+        symptoms = data.get("symptoms")
+        disease = data.get("disease")
+        hospital_type = data.get("hospital_type")
+
+        # 주소를 위도와 경도로 변환
+        geocode_result = gmaps.geocode(user_location)
+        if not geocode_result:
+            return "유효하지 않은 주소입니다. 정확한 주소를 입력해주세요."
+        
+        location = geocode_result[0]['geometry']['location']
+        latitude = location['lat']
+        longitude = location['lng']
+
+        # Google Maps API를 이용해 사용자의 거주지 근처 병원 검색
+        loop = asyncio.get_event_loop()
+        places_result = await loop.run_in_executor(None, gmaps.places_nearby, (latitude, longitude), 5000, 'hospital', hospital_type)
+
+        if places_result["results"]:
+            nearest_hospital = places_result["results"][0]["name"]
+            hospital_lat = places_result["results"][0]["geometry"]["location"]["lat"]
+            hospital_lng = places_result["results"][0]["geometry"]["location"]["lng"]
+            address = places_result["results"][0]["vicinity"]
+            
+            # HTML 지도를 생성하여 반환
+            map_html = f"""
+            <iframe
+                width="600"
+                height="450"
+                style="border:0"
+                loading="lazy"
+                allowfullscreen
+                src="https://www.google.com/maps/embed/v1/place?key={GMAPS_API_KEY}&q={hospital_lat},{hospital_lng}">
+            </iframe>
+            """
+            return f"당신은 {', '.join(symptoms)} 등을 보아 {disease}로 확인되며, {hospital_type}으로 가야합니다. 가까운 병원은 '{nearest_hospital}' 입니다. 주소: {address}", map_html
+        else:
+            return "해당 증상에 맞는 가까운 병원을 찾을 수 없습니다.", ""
+    else:
+        return "서버와의 통신에 문제가 발생했습니다. 나중에 다시 시도해주세요.", ""
+
 def login_page():
     with gr.Column():
         user_id_input = gr.Textbox(label="User_Id", placeholder="Enter your username")
@@ -15,7 +72,6 @@ def login_page():
         login_button = gr.Button("Login")
         result_output = gr.Textbox(label="Result", interactive=False)
         
-        # 버튼 클릭 시 로그인 검증 실행
         login_button.click(userRequest.login, inputs=[user_id_input, password_input], outputs=result_output)
 
 def session_check_page():
@@ -30,9 +86,10 @@ def logout_page():
         logout_output = gr.Textbox(label="Logout Result", interactive=False)
         logout_button.click(userRequest.logout, outputs=logout_output)
 
-# 챗봇 페이지 구성
 def chatbot_page():
-    gr.ChatInterface(
+    global chat_history  # 전역 변수 사용 선언
+
+    chat_interface = gr.ChatInterface(
         fn=response,
         title="Over Mind",
         description="질문하면 답변을 받을 수 있습니다.",
@@ -43,22 +100,32 @@ def chatbot_page():
         clear_btn="전체 채팅 💫",
         submit_btn="Enter",
     )
+    
+    # 대화 기록을 분석하여 병원 추천 버튼 추가
+    with gr.Column():
+        recommend_button = gr.Button("증상 기반 병원 추천")
+        user_location_input = gr.Textbox(label="현재 거주지 주소", placeholder="거주지 주소를 입력하세요")
+        recommend_output = gr.Textbox(label="병원 추천 결과", interactive=False)
+        map_output = gr.HTML(label="병원 위치 지도")
 
-# 페이지 선택 함수
+        recommend_button.click(
+            recommend_hospital,
+            inputs=[gr.State(chat_history), user_location_input],
+            outputs=[recommend_output, map_output]
+        )
+
 def select_page(page):
     if page == "로그인":
         return gr.update(visible=True), gr.update(visible=False), gr.update(visible=False)
     else:
-        # 로그인 상태를 확인하여 페이지 접근 허용 여부 결정
         if userRequest.check_login_status():
             if page == "챗봇":
                 return gr.update(visible=False), gr.update(visible=True), gr.update(visible=False)
             elif page == "기록 보기":
                 return gr.update(visible=False), gr.update(visible=False), gr.update(visible=True)
         else:
-            return gr.update(visible=True), gr.update(visible=False), gr.update(visible=False)  # 로그인 페이지로 이동
+            return gr.update(visible=True), gr.update(visible=False), gr.update(visible=False)
 
-# Main Interface
 with gr.Blocks(theme="soft") as demo:
     chat_history = []  # 챗봇과의 대화 기록 저장소
 
@@ -83,7 +150,6 @@ with gr.Blocks(theme="soft") as demo:
     with history_page_box:
         historyPage.history_Page(chat_history)
 
-    # 버튼 클릭 시 페이지 전환 (로그인 상태 확인)
     login_btn.click(select_page, inputs=[gr.State("로그인")], outputs=[login_page_box, chatbot_page_box, history_page_box])
     chatbot_btn.click(select_page, inputs=[gr.State("챗봇")], outputs=[login_page_box, chatbot_page_box, history_page_box])
     history_btn.click(select_page, inputs=[gr.State("기록 보기")], outputs=[login_page_box, chatbot_page_box, history_page_box])

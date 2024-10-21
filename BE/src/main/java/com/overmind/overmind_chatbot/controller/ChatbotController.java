@@ -9,12 +9,14 @@ import com.overmind.overmind_chatbot.service.ChatbotService;
 import com.overmind.overmind_chatbot.service.QuestionService;
 import com.overmind.overmind_chatbot.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -39,8 +41,6 @@ public class ChatbotController {
             @SessionAttribute("user_id") String uid) {
         try {
             String userInput = payload.get("content");
-            System.out.println("Received userInput: " + userInput);
-            System.out.println("Received uid from session: " + uid);
 
             // 세션에서 받은 uid로 User 객체를 조회
             User user = usersService.findByUserId(uid)
@@ -66,6 +66,19 @@ public class ChatbotController {
         } catch (Exception e) {
             e.printStackTrace();  // 예외의 스택 트레이스를 출력하여 문제의 원인을 확인
             return ResponseEntity.status(500).body("현재 연결이 안되고 있어요");
+        }
+    }
+    @PostMapping("/analyze")
+    public ResponseEntity<Map<String, Object>> analyzeChat(@RequestBody Map<String, Object> request) {
+        List<String> chatHistory = (List<String>) request.get("chat_history");
+
+        // Google AI Studio와 통신하여 결과를 가져옴
+        Map<String, Object> aiResponse = chatbotService.analyzeChat(chatHistory);
+
+        if (aiResponse != null) {
+            return ResponseEntity.ok(aiResponse);
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 }
